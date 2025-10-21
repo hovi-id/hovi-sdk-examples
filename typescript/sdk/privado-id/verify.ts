@@ -1,12 +1,12 @@
 import qrcode from "qrcode-terminal";
-import { CheqdEcosystem } from "@hovi/core-sdk";
+import { PrivadoEcosystem } from "@hovi/core-sdk";
 import chalk from "chalk";
 
 export const sendProofRequest = async (
   tenantId: string,
   verificationTemplateId: string,
   connectionId: string,
-  client: InstanceType<typeof CheqdEcosystem>
+  client: InstanceType<typeof PrivadoEcosystem>
 ) => {
   const result = await client.sendProofRequest({
     tenantId,
