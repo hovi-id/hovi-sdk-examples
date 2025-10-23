@@ -31,11 +31,11 @@ async function main() {
   // const openId = await openIDmDocWorkFlow(openIdClient);
 
   // Indicio Work flow
-  // const indicioClient = new IndicioEcosystem({
-  //   apiKey: config.api_key!,
-  //   apiBaseUrl: config.base_url,
-  // });
-  // const indicio = await indicioJsonLdWorkFlow(indicioClient);
+  const indicioClient = new IndicioEcosystem({
+    apiKey: config.api_key!,
+    apiBaseUrl: config.base_url,
+  });
+  const indicio = await indicioJsonLdWorkFlow(indicioClient);
   // const indicio = await indicioAnoncredWorkFlow(indicioClient);
 
   // Cheqd Work Flow
@@ -47,11 +47,11 @@ async function main() {
   // const cheqd = await cheqdJsonLdWorkFlow(cheqdClient);
 
   // Privado Work Flow
-  const privadoIdClient = new PrivadoEcosystem({
-    apiKey: config.api_key!,
-    apiBaseUrl: config.base_url,
-  });
-  const privado = await privadoIdJsonLdWorkFlow(privadoIdClient);
+  // const privadoIdClient = new PrivadoEcosystem({
+  //   apiKey: config.api_key!,
+  //   apiBaseUrl: config.base_url,
+  // });
+  // const privado = await privadoIdJsonLdWorkFlow(privadoIdClient);
 }
 
 main();

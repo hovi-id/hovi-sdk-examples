@@ -26,52 +26,52 @@ export async function privadoIdJsonLdWorkFlow(
     client
   );
   // Step 2: Create a new credential template
-  // const createCredentialTemplateResponse = await createCredentialTemplate(
-  //   tenantResponse.response.organizationId,
-  //   jsonLdCredentialTemplatePrivadoId,
-  //   client
-  // );
+  const createCredentialTemplateResponse = await createCredentialTemplate(
+    tenantResponse.response.organizationId,
+    jsonLdCredentialTemplatePrivadoId,
+    client
+  );
 
-  // // Step 3: Create a new connection
-  // const connectionResponse = await createConnection(
-  //   tenantResponse.response.organizationId,
-  //   client
-  // );
+  // Step 3: Create a new connection
+  const connectionResponse = await createConnection(
+    tenantResponse.response.organizationId,
+    client
+  );
 
-  // // Step 4: Create a new credential offer
-  // const offerCredential = await createCredentialOffer(
-  //   tenantResponse.response.organizationId,
-  //   {
-  //     credentialTemplateId:
-  //       createCredentialTemplateResponse.response.credentialTemplateId,
-  //     connectionId: connectionResponse.connectionId,
-  //     credentialValues: {
-  //       age: 40,
-  //     },
-  //     holderDid: tenantResponse.response.dids[0].did,
-  //   },
-  //   "jsonld",
-  //   client
-  // );
+  // Step 4: Create a new credential offer
+  const offerCredential = await createCredentialOffer(
+    tenantResponse.response.organizationId,
+    {
+      credentialTemplateId:
+        createCredentialTemplateResponse.response.credentialTemplateId,
+      connectionId: connectionResponse.connectionId,
+      credentialValues: {
+        age: 40,
+      },
+      holderDid: tenantResponse.response.dids[0].did,
+    },
+    "jsonld",
+    client
+  );
 
   // Step 4: Create a new verification template
-  // const createVerificationTemplateResponse = await createVerificationTemplate(
-  //   tenantResponse.response.organizationId,
-  //   {
-  //     ...jsonLdVerificationTemplatePrivadoId,
-  //     restrictions: {
-  //       credentialTemplateId:
-  //         createCredentialTemplateResponse.response.credentialTemplateId,
-  //     },
-  //   },
-  //   client
-  // );
+  const createVerificationTemplateResponse = await createVerificationTemplate(
+    tenantResponse.response.organizationId,
+    {
+      ...jsonLdVerificationTemplatePrivadoId,
+      restrictions: {
+        credentialTemplateId:
+          createCredentialTemplateResponse.response.credentialTemplateId,
+      },
+    },
+    client
+  );
 
-  // // Step 5: Send a proof request
-  // const sentProofRequest = await sendProofRequest(
-  //   tenantResponse.response.organizationId,
-  //   createVerificationTemplateResponse?.response?.verificationTemplateId!,
-  //   connectionResponse.connectionId,
-  //   client
-  // );
+  // Step 5: Send a proof request
+  const sentProofRequest = await sendProofRequest(
+    tenantResponse.response.organizationId,
+    createVerificationTemplateResponse?.response?.verificationTemplateId!,
+    connectionResponse.connectionId,
+    client
+  );
 }
