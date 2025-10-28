@@ -33,26 +33,25 @@ export async function privadoIdJsonLdWorkFlow(
   );
 
   // Step 3: Create a new connection
-  const connectionResponse = await createConnection(
-    tenantResponse.response.organizationId,
-    client
-  );
+  // const connectionResponse = await createConnection(
+  //   tenantResponse.response.organizationId,
+  //   client
+  // );
 
-  // Step 4: Create a new credential offer
-  const offerCredential = await createCredentialOffer(
-    tenantResponse.response.organizationId,
-    {
-      credentialTemplateId:
-        createCredentialTemplateResponse.response.credentialTemplateId,
-      connectionId: connectionResponse.connectionId,
-      credentialValues: {
-        age: 40,
-      },
-      holderDid: tenantResponse.response.dids[0].did,
-    },
-    "jsonld",
-    client
-  );
+  // // Step 4: Create a new credential offer
+  // const offerCredential = await createCredentialOffer(
+  //   tenantResponse.response.organizationId,
+  //   {
+  //     credentialTemplateId:
+  //       createCredentialTemplateResponse.response.credentialTemplateId,
+  //     connectionId: connectionResponse.connectionId,
+  //     credentialValues: {
+  //       age: 40,
+  //     },
+  //     holderDid: tenantResponse.response.dids[0].did,
+  //   },
+  //   client
+  // );
 
   // Step 4: Create a new verification template
   const createVerificationTemplateResponse = await createVerificationTemplate(
@@ -67,11 +66,11 @@ export async function privadoIdJsonLdWorkFlow(
     client
   );
 
-  // Step 5: Send a proof request
-  const sentProofRequest = await sendProofRequest(
-    tenantResponse.response.organizationId,
-    createVerificationTemplateResponse?.response?.verificationTemplateId!,
-    connectionResponse.connectionId,
-    client
-  );
+  // // Step 5: Send a proof request
+  // const sentProofRequest = await sendProofRequest(
+  //   tenantResponse.response.organizationId,
+  //   createVerificationTemplateResponse?.response?.verificationTemplateId!,
+  //   connectionResponse.connectionId,
+  //   client
+  // );
 }

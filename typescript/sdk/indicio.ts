@@ -36,26 +36,26 @@ export async function indicioJsonLdWorkFlow(
   );
 
   // //* Step 3: Create a new connection
-  const connectionResponse = await createConnection(
-    tenantResponse.response.organizationId,
-    client
-  );
+  // const connectionResponse = await createConnection(
+  //   tenantResponse.response.organizationId,
+  //   client
+  // );
 
   // //* Step 4: Create a new credential offer
-  const offerCredential = await createCredentialOffer(
-    tenantResponse.response.organizationId,
-    {
-      credentialTemplateId:
-        createCredentialTemplateResponse.response.credentialTemplateId,
-      connectionId: connectionResponse.connectionId,
-      credentialValues: {
-        age: 40,
-      },
-      holderDid: tenantResponse.response.dids[0].did,
-    },
-    "jsonld",
-    client
-  );
+  // const offerCredential = await createCredentialOffer(
+  //   tenantResponse.response.organizationId,
+  //   {
+  //     credentialTemplateId:
+  //       createCredentialTemplateResponse.response.credentialTemplateId,
+  //     connectionId: connectionResponse.connectionId,
+  //     credentialValues: {
+  //       age: 40,
+  //     },
+  //     holderDid: tenantResponse.response.dids[0].did,
+  //   },
+  //   "jsonld",
+  //   client
+  // );
 
   // Step 5: Create a new verification template
   const createVerificationTemplateResponse = await createVerificationTemplate(
@@ -72,12 +72,12 @@ export async function indicioJsonLdWorkFlow(
   );
 
   // //* Step 6: Send a proof request
-  const sentProofRequest = await sendProofRequest(
-    tenantResponse.response.organizationId,
-    createVerificationTemplateResponse?.response?.verificationTemplateId!,
-    connectionResponse.connectionId,
-    client
-  );
+  // const sentProofRequest = await sendProofRequest(
+  //   tenantResponse.response.organizationId,
+  //   createVerificationTemplateResponse?.response?.verificationTemplateId!,
+  //   connectionResponse.connectionId,
+  //   client
+  // );
 }
 
 export async function indicioAnoncredWorkFlow(
@@ -102,25 +102,25 @@ export async function indicioAnoncredWorkFlow(
   );
 
   // // Step 3: Create a new connection
-  const connectionResponse = await createConnection(
-    tenantResponse.response.organizationId,
-    client
-  );
+  // const connectionResponse = await createConnection(
+  //   tenantResponse.response.organizationId,
+  //   client
+  // );
 
-  // // Step 4: Create a new credential offer
-  const offerCredential = await createCredentialOffer(
-    tenantResponse.response.organizationId,
-    {
-      credentialTemplateId:
-        createCredentialTemplateResponse.response.credentialTemplateId,
-      connectionId: connectionResponse.connectionId,
-      credentialValues: {
-        age: "40",
-      },
-    },
-    "anoncred",
-    client
-  );
+  // // // Step 4: Create a new credential offer
+  // const offerCredential = await createCredentialOffer(
+  //   tenantResponse.response.organizationId,
+  //   {
+  //     credentialTemplateId:
+  //       createCredentialTemplateResponse.response.credentialTemplateId,
+  //     connectionId: connectionResponse.connectionId,
+  //     credentialValues: {
+  //       age: "40",
+  //     },
+  //   },
+  //   "anoncred",
+  //   client
+  // );
 
   // Step 4: Create a new verification template
   const createVerificationTemplateResponse = await createVerificationTemplate(
@@ -131,10 +131,10 @@ export async function indicioAnoncredWorkFlow(
   );
 
   // Step 5: Send a proof request
-  const sentProofRequest = await sendProofRequest(
-    tenantResponse.response.organizationId,
-    createVerificationTemplateResponse?.response?.verificationTemplateId!,
-    connectionResponse.connectionId,
-    client
-  );
+  // const sentProofRequest = await sendProofRequest(
+  //   tenantResponse.response.organizationId,
+  //   createVerificationTemplateResponse?.response?.verificationTemplateId!,
+  //   connectionResponse.connectionId,
+  //   client
+  // );
 }
