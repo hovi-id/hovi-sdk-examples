@@ -2,8 +2,6 @@
 
 A clean, minimalist set of TypeScript examples demonstrating end-to-end credential issuance and verification workflows using the **Hovi Core SDK**.
 
-This repository is structured for maximum clarity, with all complex, duplicated logic removed to make the examples **stupidly easy to grasp**.
-
 ---
 
 ## 🚀 Quick Start
