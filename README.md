@@ -51,7 +51,7 @@ npm start
 The `typescript/sdk/index.ts` file acts as a simple menu. To run a different workflow:
 
 1.  Open `typescript/sdk/index.ts`.
-2.  **Comment out** the currently active workflow block (e.g., `await indicioJsonLdWorkFlow(indicioClient);`).
+2.  **Comment out** the currently active workflow block (e.g., `await openIdJsonLdWorkFlow(openIdClient);`).
 3.  **Uncomment** the block for the desired ecosystem (e.g., OpenID).
 
 All workflow files (e.g., `cheqd.ts`, `open-id.ts`) are completely sequenced, running every necessary step from Tenant creation to Proof Request, with no vital steps commented out.
