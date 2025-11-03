@@ -15,45 +15,48 @@ import { indicioAnoncredWorkFlow, indicioJsonLdWorkFlow } from "./indicio";
 import { privadoIdJsonLdWorkFlow } from "./privado-id";
 
 dotenv.config();
+
 export const config = {
   base_url: process.env.BASE_URL,
   api_key: process.env.API_KEY,
 };
 
+// Type definition remains
 export type TCredentialFormat = "mdoc" | "sd-jwt" | "jsonld" | "anoncred";
 
 async function main() {
-  // OpenId Work Flow
+  console.log("Hovi SDK Examples Starting...\n");
+
   // const openIdClient = new OpenIdEcosystem({
   //   apiKey: config.api_key!,
   //   apiBaseUrl: config.base_url,
   // });
-  // const openId = await openIdJsonLdWorkFlow(openIdClient);
-  // const openId = await openIdSdJwtWorkFlow(openIdClient);
-  // const openId = await openIDmDocWorkFlow(openIdClient);
+  // await openIdSdJwtWorkFlow(openIdClient);
+  // await openIDmDocWorkFlow(openIdClient);
+  // await openIdJsonLdWorkFlow(openIdClient);
 
-  // Indicio Work flow
-  // const indicioClient = new IndicioEcosystem({
+  // const privadoIdClient = new PrivadoEcosystem({
   //   apiKey: config.api_key!,
   //   apiBaseUrl: config.base_url,
   // });
-  // const indicio = await indicioJsonLdWorkFlow(indicioClient);
-  // const indicio = await indicioAnoncredWorkFlow(indicioClient);
+  // await privadoIdJsonLdWorkFlow(privadoIdClient);
 
-  // Cheqd Work Flow
+  const indicioClient = new IndicioEcosystem({
+    apiKey: config.api_key!,
+    apiBaseUrl: config.base_url,
+  });
+  await indicioJsonLdWorkFlow(indicioClient);
+  // await indicioAnoncredWorkFlow(indicioClient);
+
   // const cheqdClient = new CheqdEcosystem({
   //   apiKey: config.api_key!,
   //   apiBaseUrl: config.base_url,
   // });
-  // const cheqd = await cheqdAnoncredWorkFlow(cheqdClient);
-  // const cheqd = await cheqdJsonLdWorkFlow(cheqdClient);
-
-  // Privado Work Flow
-  const privadoIdClient = new PrivadoEcosystem({
-    apiKey: config.api_key!,
-    apiBaseUrl: config.base_url,
-  });
-  const privado = await privadoIdJsonLdWorkFlow(privadoIdClient);
+  // await cheqdJsonLdWorkFlow(cheqdClient);
+  // await cheqdAnoncredWorkFlow(cheqdClient);
 }
 
-main();
+main().catch((error) => {
+  console.error("An error occurred during the main execution:", error.message);
+  process.exit(1);
+});

@@ -1,11 +1,11 @@
 import { PrivadoEcosystem } from "@hovi/core-sdk";
 import { createTenant } from "./utils/tenant";
 import {
-  createCredentialTemplate,
-  createVerificationTemplate,
+  createCredentialTemplateJsonLd,
+  createVerificationTemplateJsonLd,
 } from "./privado-id/templates";
 import { createConnection } from "./privado-id/connection";
-import { createCredentialOffer } from "./privado-id/issue";
+import { offerCredentialJsonLd } from "./privado-id/issue";
 import {
   jsonLdCredentialTemplatePrivadoId,
   jsonLdVerificationTemplatePrivadoId,
@@ -15,62 +15,58 @@ import { sendProofRequest } from "./privado-id/verify";
 export async function privadoIdJsonLdWorkFlow(
   client: InstanceType<typeof PrivadoEcosystem>
 ) {
-  // Step 1: Create a new tenant
+  console.log("\n--- Starting PrivadoID JSON-LD Workflow ---"); // 1. Create Tenant
   const tenantResponse = await createTenant(
     {
-      tenantName: "Your Tenant Name", // Replace with your tenant's name
-      tenantLabel: "Your Tenant Label", // Replace with a descriptive label
-      tenantSecret: "Your Tenant Secret", // Replace with a secure secret key
-      imageUrl: "https://yourdomain.com/logo.png", // Replace with your logo URL
+      tenantName: "PrivadoIdJsonLdIssuer",
+      tenantLabel: "PrivadoID JSON-LD Issuer",
+      tenantSecret: "secret-key-1",
+      imageUrl: "https://yourdomain.com/logo.png",
     },
     client
   );
-  // Step 2: Create a new credential template
-  const createCredentialTemplateResponse = await createCredentialTemplate(
-    tenantResponse.response.organizationId,
+  const organizationId = tenantResponse.response.organizationId; // 2. Create Credential Template (JSON-LD)
+
+  const createCredentialTemplateResponse = await createCredentialTemplateJsonLd(
+    organizationId,
     jsonLdCredentialTemplatePrivadoId,
     client
   );
+  const credentialTemplateId =
+    createCredentialTemplateResponse.response.credentialTemplateId; // 3. Create Verification Template (JSON-LD)
 
-  // Step 3: Create a new connection
-  // const connectionResponse = await createConnection(
-  //   tenantResponse.response.organizationId,
-  //   client
-  // );
+  const connectionResponse = await createConnection(organizationId, client);
+  const connectionId = connectionResponse.connectionId;
 
-  // // Step 4: Create a new credential offer
-  // const offerCredential = await createCredentialOffer(
-  //   tenantResponse.response.organizationId,
-  //   {
-  //     credentialTemplateId:
-  //       createCredentialTemplateResponse.response.credentialTemplateId,
-  //     connectionId: connectionResponse.connectionId,
-  //     credentialValues: {
-  //       age: 40,
-  //     },
-  //     holderDid: tenantResponse.response.dids[0].did,
-  //   },
-  //   client
-  // );
-
-  // Step 4: Create a new verification template
-  const createVerificationTemplateResponse = await createVerificationTemplate(
-    tenantResponse.response.organizationId,
+  await offerCredentialJsonLd(
+    organizationId,
     {
-      ...jsonLdVerificationTemplatePrivadoId,
-      restrictions: {
-        credentialTemplateId:
-          createCredentialTemplateResponse.response.credentialTemplateId,
+      credentialTemplateId: credentialTemplateId,
+      connectionId: connectionId,
+      credentialValues: {
+        age: 40,
       },
     },
     client
   );
 
-  // // Step 5: Send a proof request
-  // const sentProofRequest = await sendProofRequest(
-  //   tenantResponse.response.organizationId,
-  //   createVerificationTemplateResponse?.response?.verificationTemplateId!,
-  //   connectionResponse.connectionId,
-  //   client
-  // );
+  const createVerificationTemplateResponse =
+    await createVerificationTemplateJsonLd(
+      organizationId,
+      {
+        ...jsonLdVerificationTemplatePrivadoId,
+        restrictions: { credentialTemplateId: credentialTemplateId },
+      },
+      client
+    );
+  const verificationTemplateId =
+    createVerificationTemplateResponse?.response?.verificationTemplateId!;
+
+  await sendProofRequest(
+    organizationId,
+    verificationTemplateId,
+    connectionId,
+    client
+  );
+  console.log("--- PrivadoID JSON-LD Workflow Setup Complete ---");
 }

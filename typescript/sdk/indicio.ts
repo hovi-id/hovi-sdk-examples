@@ -1,4 +1,4 @@
-import { createTenant } from "./utils/tenant";
+import { createConnection } from "./indicio/connection";
 import {
   anoncredCredentialTemplate,
   anoncredVerificationTemplate,
@@ -7,134 +7,141 @@ import {
 } from "./faker";
 import { IndicioEcosystem } from "@hovi/core-sdk";
 import {
-  createCredentialTemplate,
-  createVerificationTemplate,
+  createCredentialTemplateAnoncred,
+  createCredentialTemplateJsonLd,
+  createVerificationTemplateAnoncred,
+  createVerificationTemplateJsonLd,
 } from "./indicio/templates";
-import { createConnection } from "./indicio/connection";
-import { createCredentialOffer } from "./indicio/issue";
+import {
+  offerCredentialAnoncred,
+  offerCredentialJsonLd,
+} from "./indicio/issue";
 import { sendProofRequest } from "./indicio/verify";
+import { createTenant } from "./utils/tenant";
 
 export async function indicioJsonLdWorkFlow(
   client: InstanceType<typeof IndicioEcosystem>
 ) {
-  //* Step 1: Create a new tenant
+  console.log("\n--- Starting INDICIO JSON-LD Workflow ---");
+
+  // 1. Create Tenant
   const tenantResponse = await createTenant(
     {
-      tenantName: "YourTenantName", // Replace with your tenant's name
-      tenantLabel: "YourTenantLabel", // Replace with a descriptive label
-      tenantSecret: "YourTenantSecret", // Replace with a secure secret key
-      imageUrl: "https://yourdomain.com/logo.png", // Replace with your logo URL
+      tenantName: "IndicioJsonLdIssuer",
+      tenantLabel: "Indicio JSON-LD Issuer",
+      tenantSecret: "secret-key-1",
+      imageUrl: "https://yourdomain.com/logo.png",
     },
     client
   );
-  //* Step 2: Create a new credential template
-  const createCredentialTemplateResponse = await createCredentialTemplate(
-    tenantResponse.response.organizationId,
+  const organizationId = tenantResponse.response.organizationId;
+
+  // 2. Create Connection
+  const connectionResponse = await createConnection(organizationId, client);
+  const connectionId = connectionResponse.connectionId;
+
+  // 3. Create Credential Template (JSON-LD)
+  const createCredentialTemplateResponse = await createCredentialTemplateJsonLd(
+    organizationId,
     jsonLdCredentialTemplate,
-    "jsonld",
     client
   );
 
-  // //* Step 3: Create a new connection
-  // const connectionResponse = await createConnection(
-  //   tenantResponse.response.organizationId,
-  //   client
-  // );
+  const credentialTemplateId =
+    createCredentialTemplateResponse.response.credentialTemplateId;
 
-  // //* Step 4: Create a new credential offer
-  // const offerCredential = await createCredentialOffer(
-  //   tenantResponse.response.organizationId,
-  //   {
-  //     credentialTemplateId:
-  //       createCredentialTemplateResponse.response.credentialTemplateId,
-  //     connectionId: connectionResponse.connectionId,
-  //     credentialValues: {
-  //       age: 40,
-  //     },
-  //     holderDid: tenantResponse.response.dids[0].did,
-  //   },
-  //   "jsonld",
-  //   client
-  // );
-
-  // Step 5: Create a new verification template
-  const createVerificationTemplateResponse = await createVerificationTemplate(
-    tenantResponse.response.organizationId,
+  await offerCredentialJsonLd(
+    organizationId,
     {
-      ...jsonLdVerificationTemplate,
-      restrictions: {
-        credentialTemplateId:
-          createCredentialTemplateResponse.response.credentialTemplateId,
-      },
+      credentialTemplateId: credentialTemplateId,
+      connectionId: connectionId,
+      credentialValues: { age: 40 },
+      holderDid: tenantResponse.response.dids[0].did,
     },
-    "jsonld",
     client
   );
 
-  // //* Step 6: Send a proof request
-  // const sentProofRequest = await sendProofRequest(
-  //   tenantResponse.response.organizationId,
-  //   createVerificationTemplateResponse?.response?.verificationTemplateId!,
-  //   connectionResponse.connectionId,
-  //   client
-  // );
+  // 3. Create Verification Template (JSON-LD)
+  const createVerificationTemplateResponse =
+    await createVerificationTemplateJsonLd(
+      organizationId,
+      {
+        ...jsonLdVerificationTemplate,
+        restrictions: { credentialTemplateId: credentialTemplateId },
+      },
+      client
+    );
+  const verificationTemplateId =
+    createVerificationTemplateResponse?.response?.verificationTemplateId!;
+
+  // 4. Send proof request for (JSON-LD)
+  await sendProofRequest(
+    organizationId,
+    verificationTemplateId,
+    connectionId,
+    client
+  );
 }
 
 export async function indicioAnoncredWorkFlow(
   client: InstanceType<typeof IndicioEcosystem>
 ) {
-  // Step 1: Create a new tenant
+  console.log("\n--- Starting INDICIO Anoncred Workflow ---");
+
+  // 1. Create Tenant
   const tenantResponse = await createTenant(
     {
-      tenantName: "YourTenantName", // Replace with your tenant's name
-      tenantLabel: "YourTenantLabel", // Replace with a descriptive label
-      tenantSecret: "YourTenantSecret", // Replace with a secure secret key
-      imageUrl: "https://yourdomain.com/logo.png", // Replace with your logo URL
+      tenantName: "IndicioJsonLdIssuer",
+      tenantLabel: "Indicio JSON-LD Issuer",
+      tenantSecret: "secret-key-1",
+      imageUrl: "https://yourdomain.com/logo.png",
     },
     client
   );
-  // Step 2: Create a new credential template
-  const createCredentialTemplateResponse = await createCredentialTemplate(
-    tenantResponse.response.organizationId,
-    anoncredCredentialTemplate,
-    "anoncred",
+  const organizationId = tenantResponse.response.organizationId;
+
+  // 2. Create Credential Template (Anoncred)
+  const createCredentialTemplateResponse =
+    await createCredentialTemplateAnoncred(
+      organizationId,
+      anoncredCredentialTemplate,
+      client
+    );
+  const credentialTemplateId =
+    createCredentialTemplateResponse.response.credentialTemplateId;
+
+  // 3. Create Connection
+  const connectionResponse = await createConnection(organizationId, client);
+  const connectionId = connectionResponse.connectionId;
+
+  // 4. Offer Credential (Anoncred)
+  await offerCredentialAnoncred(
+    organizationId,
+    {
+      credentialTemplateId,
+      connectionId,
+      credentialValues: {
+        age: "40",
+      },
+    },
     client
   );
 
-  // // Step 3: Create a new connection
-  // const connectionResponse = await createConnection(
-  //   tenantResponse.response.organizationId,
-  //   client
-  // );
+  // 3. Create Verification Template (Anoncred)
+  const createVerificationTemplateResponse =
+    await createVerificationTemplateAnoncred(
+      organizationId,
+      anoncredVerificationTemplate,
+      client
+    );
+  const verificationTemplateId =
+    createVerificationTemplateResponse?.response?.verificationTemplateId!;
 
-  // // // Step 4: Create a new credential offer
-  // const offerCredential = await createCredentialOffer(
-  //   tenantResponse.response.organizationId,
-  //   {
-  //     credentialTemplateId:
-  //       createCredentialTemplateResponse.response.credentialTemplateId,
-  //     connectionId: connectionResponse.connectionId,
-  //     credentialValues: {
-  //       age: "40",
-  //     },
-  //   },
-  //   "anoncred",
-  //   client
-  // );
-
-  // Step 4: Create a new verification template
-  const createVerificationTemplateResponse = await createVerificationTemplate(
-    tenantResponse.response.organizationId,
-    anoncredVerificationTemplate,
-    "anoncred",
+  await sendProofRequest(
+    organizationId,
+    verificationTemplateId,
+    connectionId,
     client
   );
-
-  // Step 5: Send a proof request
-  // const sentProofRequest = await sendProofRequest(
-  //   tenantResponse.response.organizationId,
-  //   createVerificationTemplateResponse?.response?.verificationTemplateId!,
-  //   connectionResponse.connectionId,
-  //   client
-  // );
+  console.log("--- INDICIO Anoncred Workflow Setup Complete ---");
 }
