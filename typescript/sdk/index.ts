@@ -27,13 +27,13 @@ export type TCredentialFormat = "mdoc" | "sd-jwt" | "jsonld" | "anoncred";
 async function main() {
   console.log("Hovi SDK Examples Starting...\n");
 
-  // const openIdClient = new OpenIdEcosystem({
-  //   apiKey: config.api_key!,
-  //   apiBaseUrl: config.base_url,
-  // });
+  const openIdClient = new OpenIdEcosystem({
+    apiKey: config.api_key!,
+    apiBaseUrl: config.base_url,
+  });
+  await openIdJsonLdWorkFlow(openIdClient);
   // await openIdSdJwtWorkFlow(openIdClient);
   // await openIDmDocWorkFlow(openIdClient);
-  // await openIdJsonLdWorkFlow(openIdClient);
 
   // const privadoIdClient = new PrivadoEcosystem({
   //   apiKey: config.api_key!,
@@ -41,11 +41,11 @@ async function main() {
   // });
   // await privadoIdJsonLdWorkFlow(privadoIdClient);
 
-  const indicioClient = new IndicioEcosystem({
-    apiKey: config.api_key!,
-    apiBaseUrl: config.base_url,
-  });
-  await indicioJsonLdWorkFlow(indicioClient);
+  // const indicioClient = new IndicioEcosystem({
+  //   apiKey: config.api_key!,
+  //   apiBaseUrl: config.base_url,
+  // });
+  // await indicioJsonLdWorkFlow(indicioClient);
   // await indicioAnoncredWorkFlow(indicioClient);
 
   // const cheqdClient = new CheqdEcosystem({

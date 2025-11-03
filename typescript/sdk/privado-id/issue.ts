@@ -1,6 +1,6 @@
 import { PrivadoEcosystem } from "@hovi/core-sdk";
 
-export async function offerCredentialJsonLd( // Renamed function
+export async function offerCredentialJsonLd(
   tenantId: string,
   payload: any,
   client: InstanceType<typeof PrivadoEcosystem>
@@ -11,7 +11,6 @@ export async function offerCredentialJsonLd( // Renamed function
   });
 
   if (!result.success) {
-    // Use result.message instead of casting the whole result object to string
     throw new Error(result.message as string);
   }
   console.log("✅ Credential offer sent successfully");

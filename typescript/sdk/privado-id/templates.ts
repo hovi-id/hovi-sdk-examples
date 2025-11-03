@@ -5,7 +5,7 @@ import { PrivadoEcosystem } from "@hovi/core-sdk";
 /**
  * Creates a JSON-LD credential template for a tenant.
  */
-export async function createCredentialTemplateJsonLd( // Explicit function name
+export async function createCredentialTemplateJsonLd( 
   tenantId: string,
   payload: any,
   client: InstanceType<typeof PrivadoEcosystem>

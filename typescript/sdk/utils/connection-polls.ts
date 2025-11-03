@@ -1,5 +1,3 @@
-// FILE: typescript/sdk/utils/connection-poll.ts (New Generic Utility)
-
 /**
  * Defines the minimum required client interface for connection status polling.
  * This is a trick to make the polling logic reusable for Cheqd, Indicio, and Privado.

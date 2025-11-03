@@ -20,7 +20,6 @@ export const createConnection = async (
   if (!result.success) throw new Error(result.message);
   qrcode.generate(result?.response?.invitationBase64!, { small: true });
   console.log(
-    // Use console.log for chalk output
     chalk.green(
       `Accept the connection request using the QR code above in next 2 min otherwise you will have to create the connection again.`
     )

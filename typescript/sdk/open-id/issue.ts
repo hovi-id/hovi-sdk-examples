@@ -1,11 +1,8 @@
 import qrcode from "qrcode-terminal";
-// ... imports
-// import { TCredentialFormat } from ".."; // Not needed anymore!
 
 import { OpenIdEcosystem } from "@hovi/core-sdk";
 import chalk from "chalk";
 
-// New, Direct function for SD-JWT offers
 export async function offerCredentialSdJwt(
   tenantId: string,
   payload: any,
@@ -23,7 +20,6 @@ export async function offerCredentialSdJwt(
   qrcode.generate(result?.response?.credentialOfferUri, { small: true });
 }
 
-// New, Direct function for JSON-LD offers
 export async function offerCredentialJsonLd(
   tenantId: string,
   payload: any,
@@ -41,7 +37,6 @@ export async function offerCredentialJsonLd(
   qrcode.generate(result?.response?.credentialOfferUri, { small: true });
 }
 
-// New, Direct function for mDoc offers
 export async function offerCredentialMdoc(
   tenantId: string,
   payload: any,

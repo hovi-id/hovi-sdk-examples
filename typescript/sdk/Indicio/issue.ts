@@ -1,7 +1,5 @@
 import { IndicioEcosystem } from "@hovi/core-sdk";
-// import { TCredentialFormat } from ".."; // Not needed anymore!
 
-// New, Direct function for JSON-LD offers
 export async function offerCredentialJsonLd(
   tenantId: string,
   payload: any,

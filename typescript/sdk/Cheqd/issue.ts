@@ -1,7 +1,5 @@
 import { CheqdEcosystem } from "@hovi/core-sdk";
-// import { TCredentialFormat } from ".."; // Not needed anymore!
 
-// New, Direct function for JSON-LD offers
 export async function offerCredentialJsonLd(
   tenantId: string,
   payload: any,
@@ -17,7 +15,6 @@ export async function offerCredentialJsonLd(
   console.log("✅ JSON-LD Credential offer sent successfully");
 }
 
-// New, Direct function for Anoncred offers
 export async function offerCredentialAnoncred(
   tenantId: string,
   payload: any,

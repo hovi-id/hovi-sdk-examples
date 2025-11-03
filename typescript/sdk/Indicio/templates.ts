@@ -3,7 +3,6 @@
 import chalk from "chalk";
 import { IndicioEcosystem } from "@hovi/core-sdk";
 
-// New, Direct function for JSON-LD credential template
 export async function createCredentialTemplateJsonLd(
   tenantId: string,
   payload: any,
@@ -20,7 +19,6 @@ export async function createCredentialTemplateJsonLd(
   return result;
 }
 
-// New, Direct function for Anoncred credential template
 export async function createCredentialTemplateAnoncred(
   tenantId: string,
   payload: any,
@@ -37,7 +35,6 @@ export async function createCredentialTemplateAnoncred(
   return result;
 }
 
-// New, Direct function for JSON-LD verification template
 export const createVerificationTemplateJsonLd = async (
   tenantId: string,
   payload: any,
@@ -54,7 +51,6 @@ export const createVerificationTemplateJsonLd = async (
   return result;
 };
 
-// New, Direct function for Anoncred verification template
 export const createVerificationTemplateAnoncred = async (
   tenantId: string,
   payload: any,

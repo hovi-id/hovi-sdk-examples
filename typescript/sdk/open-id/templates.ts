@@ -1,7 +1,5 @@
-// FILE: typescript/sdk/open-id/templates.ts (Refactored for Simplicity)
 
 import { OpenIdEcosystem } from "@hovi/core-sdk";
-import { TCredentialFormat } from ".."; // Retained for utility type if needed elsewhere, but not used in these functions now
 
 export async function createCredentialTemplateJsonLd(
   tenantId: string,
@@ -51,7 +49,6 @@ export async function createCredentialTemplateMdoc(
   return result;
 }
 
-// --- Verification Template Functions (Direct) ---
 
 export const createVerificationTemplateJsonLd = async (
   tenantId: string,
