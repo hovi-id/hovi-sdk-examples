@@ -28,7 +28,7 @@ cp .env.example .env
 Edit the `.env` file and replace the placeholder with your actual Hovi API key:
 
 ```
-BASE_URL=[https://api-dev.hovi.id](https://api-dev.hovi.id)
+BASE_URL=https://api.hovi.id
 API_KEY=<YOUR_ECOSYSTEM_API_KEY_HERE>
 ```
 
